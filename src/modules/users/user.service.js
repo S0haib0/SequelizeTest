@@ -1,5 +1,5 @@
 import { userModel } from "../../database/model/userModel.js";
-
+// add user service
 export const addUser = async (data) => {
   let { name, email, password, role } = data;
   let emailExists = await userModel.findOne({ where: { email: email } });
@@ -15,7 +15,7 @@ export const addUser = async (data) => {
 
   return false;
 };
-
+// user login service
 export const logIn = async (data) => {
   let { email, password } = data;
   let emailExists = await userModel.findOne({

@@ -10,7 +10,7 @@ export const BorrowedBookModel = sequelize.define("BorrowedBook", {
     type: DataTypes.DATE,
     allowNull: true,
   },
-  status: {
+  bookStatus: {
     type: DataTypes.ENUM("borrowed", "returned"),
     defaultValue: "borrowed",
   },

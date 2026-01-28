@@ -1,21 +1,27 @@
-import express, { Router } from "express";
+import { Router } from "express";
 import { allBorrowed, borrowBook, borrowCount } from "./borrowBooks.service.js";
 const router = Router();
-
+// Borrow a book
 router.post("/borrow-book", async (req, res) => {
   let bookData = await borrowBook(req.body);
-});
-
-router.get("/get-borrowed-bookes:/id", async (req, res) => {
-  let borrowedData = await borrowCount(req.params);
-  if (borrowedData > 0) {
-    res.json({ msg: "this user has borrowedd books", borrowedData });
+  if (bookData) {
+    res.json({ msg: "book borrowed successfully", bookData });
   } else {
-    res.json({ msg: "this user has not borrowed any books yet" });
+    res.json({ msg: "book is not available" });
   }
 });
-
-router.get("/all", async (req, res) => {
-  let returnedData = await allBorrowed(req.body);
+// Get borrowed books count for a user
+router.get("/get-borrowed-bookes/:id", async (req, res) => {
+  let borrowedData = await borrowCount(req.params);
+  res.json({ msg: "this user has borrowedd books", borrowedData });
+});
+// Get all borrowed books (admin only)
+router.get("/all/:id", async (req, res) => {
+  let returnedData = await allBorrowed(req.params);
+  if (returnedData) {
+    res.json({ msg: "all borrowed books", returnedData });
+  } else {
+    res.json({ msg: "only admin can access this data" });
+  }
 });
 export default router;
